@@ -7,7 +7,7 @@ const loadCategoryMenu = () => {
 const displayCategoryMenu = (categories) => {
     // console.log('categories', categories)
     loadCategoryId(categories[0].category_id)
-    console.log('categories[0].category_id', categories[0].category_id)
+    // console.log('categories[0].category_id', categories[0].category_id)
     for (const category of categories) {
         // console.log(category);
         const categoryContainer = document.getElementById('category-container');
@@ -26,7 +26,7 @@ const loadCategoryId = (id) => {
     fetch(idUrl)
         .then(res => res.json())
         .then(data => {
-            console.log('data', data)
+            // console.log('data', data)
 
             displayId(data.data)
         })

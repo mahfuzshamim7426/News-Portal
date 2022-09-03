@@ -4,6 +4,7 @@ const loadCategoryMenu = () => {
         .then(res => res.json())
         .then(data => displayCategoryMenu(data.data.news_category))
 }
+
 const displayCategoryMenu = (categories) => {
     // console.log('categories', categories)
     loadCategoryId(categories[0].category_id)
@@ -12,6 +13,7 @@ const displayCategoryMenu = (categories) => {
         // console.log(category);
         const categoryContainer = document.getElementById('category-container');
         const categoryDiv = document.createElement('div');
+
         categoryDiv.innerHTML = `
         <div onclick=loadCategoryId('${category.category_id}') >
            <h5 class="category-item">${category.category_name}</h5>
@@ -20,41 +22,62 @@ const displayCategoryMenu = (categories) => {
         categoryContainer.appendChild(categoryDiv);
     }
 }
-const loadCategoryId = (id) => {
+const loadCategoryId = async (id) => {
+    // start Spinner
+    toggleSpinner(true)
+
     // console.log('id', id)
     const idUrl = `https://openapi.programming-hero.com/api/news/category/${id} `
-    fetch(idUrl)
+    await fetch(idUrl)
         .then(res => res.json())
         .then(data => {
             // console.log('data', data)
 
             displayId(data.data)
+
+            // End Spinner 
         })
 
 }
 const displayId = (data) => {
     const displayNews = document.getElementById('display-news');
     displayNews.innerHTML = ``;
-    for (const categoryUrl of data) {
-        // console.log(categoryUrl)
+    for (const categoryItem of data) {
+        // console.log('categoryItem', categoryItem)
         const categoryDiv = document.createElement('div')
         categoryDiv.innerHTML = `
-                <div class="row g-0">
+                <div class="row g-0 m-2">
                     <div class="col-md-4">
-                    <img src="${categoryUrl.image_url}" class="img-fluid rounded-start  m-2" alt="...">
-
+                      <img src="${categoryItem.image_url}" class="img-fluid rounded-start  m-2" alt="...">
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-8 mt-2">
                         <div class="card-body  mx-2 px-4">
-                        <h5 class="card-title">${categoryUrl.title}</h5>
-                        <p class="card-text mt-2">${categoryUrl.details.slice(0, 200)}</p>
-                        <div class="d-flex justify-content-around mt-2">
-                        <p class="card-title ">
-                        <img src="${categoryUrl.author.img}" class="img-fluid rounded-start  m-2 " style="height: 40px; width: 40px; border-radius: 155px;" alt="..."> ${categoryUrl.author.name}</p>
-                        <p class="card-text mt-3">${categoryUrl.total_view}</p>
-                        <p class="card-text mt-3">More > ${categoryUrl.rating.number}</p>
-
-                        </div>
+                            <h5 class="card-title">${categoryItem.title}</h5>
+                            <p class="card-text mt-2">
+                            ${categoryItem?.details ?
+                categoryItem?.details?.length > 200 ? categoryItem.details.slice(0, 200) + '...' : categoryItem?.details
+                :
+                'No Details Availableu'
+            }
+                            </p>
+                            <div class="d-flex justify-content-between mt-2">
+                              <div class="d-flex justify-content-between  align-items-center">
+                                 <div  style="height: 40px; width: 40px;">
+                                     <img src="${categoryItem.author.img}"
+                                        class="img-fluid"
+                                        style=" border-radius: 155px;"
+                                        alt="card-image">
+                                   </div>
+                                        <p class="card-title ms-2"> ${categoryItem.author.name} </p>
+                                   </div>
+                                    <p class="card-text mt-3">${categoryItem.total_view}</p>
+                                 <div>
+                                     <button onclick="showModal( ${categoryItem})"
+                                      type="button" class="btn btn-primary"
+                                      data-bs-toggle="modal" data-bs-target="#exampleModal"> More  </button>
+                                    
+                                  </div>
+                          </div>
 
                         
                         </div>
@@ -62,8 +85,30 @@ const displayId = (data) => {
                 </div>
        `
         displayNews.appendChild(categoryDiv);
+
     }
 
+    // End Spinner 
+    toggleSpinner(false)
+
 }
+
+const showModal = (category) => {
+    console.log('categoryItem from Modal', category)
+    // const modalTitle = document.getElementById('titleModalLabel');
+    // modalTitle.innerText = category.title;
+}
+
+const toggleSpinner = (isLoading) => {
+    const loadSpinner = document.getElementById('loader');
+    if (isLoading) {
+        loadSpinner.classList.remove('d-none')
+    }
+    else {
+        loadSpinner.classList.add('d-none')
+
+    }
+}
+
 loadCategoryId();
 loadCategoryMenu();

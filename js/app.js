@@ -74,7 +74,7 @@ const displayId = (data) => {
                 'No Details Availableu'
             }
                                  </p>
-                                 <div class="d-flex justify-content-between mt-2">
+                                 <div class="d-flex justify-content-between align-items-center">
                                    <div class="d-flex justify-content-between  align-items-center">
                                       <div  style="height: 40px; width: 40px;">
                                           <img src="${categoryItem.author.img}"
@@ -82,9 +82,9 @@ const displayId = (data) => {
                                              style=" border-radius: 155px;"
                                              alt="card-image">
                                         </div>
-                                             <p class="card-title ms-2"> ${categoryItem.author.name} </p>
+                                             <p class="card-title ms-2"> ${categoryItem.author.name ? categoryItem.author.name : 'No Data Available'} </p>
                                         </div>
-                                         <p class="card-text mt-3">${categoryItem.total_view}</p>
+                                         <p class="card-text mt-3">${categoryItem.total_view ? categoryItem.total_view : 'No Data Available'}</p>
                                       <div>
                                           <button onclick="showModal( ${categoryItem})"
                                            type="button" class="btn btn-primary"

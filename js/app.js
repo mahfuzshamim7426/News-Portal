@@ -8,7 +8,8 @@ const loadCategoryMenu = () => {
 
 const displayCategoryMenu = (categories) => {
     // console.log('categories', categories)
-    loadCategoryId(categories[0].category_id)
+
+    loadCategoryId(categories[0].category_id, categories[0].category_name)
     // console.log('categories[0].category_id', categories[0].category_id)
 
     categories.forEach(category => {
@@ -17,14 +18,14 @@ const displayCategoryMenu = (categories) => {
         const categoryDiv = document.createElement('div');
 
         categoryDiv.innerHTML = `
-        <div onclick=loadCategoryId('${category.category_id}') >
+        <div class="me-2"; onclick="loadCategoryId('${category.category_id}', '${category.category_name}')" >
            <h5 class="category-item">${category.category_name}</h5>
         </div>
             `
         categoryContainer.appendChild(categoryDiv);
     })
 }
-const loadCategoryId = async (id) => {
+const loadCategoryId = async (id, catagoryName) => {
     // start Spinner
     toggleSpinner(true)
 
@@ -34,8 +35,8 @@ const loadCategoryId = async (id) => {
     try {
         const res = await fetch(idUrl)
         const data = await res.json();
-        displayId(data.data)
-        // console.log('data', data)
+        displayId(data.data, catagoryName)
+        // console.log('data by Id', data)
     }
     catch (error) {
         console.log(error);
@@ -50,10 +51,24 @@ const loadCategoryId = async (id) => {
     // })
     // .catch(error => console.log(error))
 }
-const displayId = (data) => {
+const displayId = (data, catagoryName) => {
+    // console.log('catagoryName', catagoryName)
+    const catNames = document.getElementById('cat-name');
+    catNames.innerText = catagoryName
+    // console.log('data: ', data);
     const displayNews = document.getElementById('display-news');
     const displayNewsCount = document.getElementById('news-count');
     const newsCount = data?.length;
+
+    const noResult = document.getElementById('no-result');
+    if (data.length === 0) {
+        noResult.classList.remove('d-none')
+    }
+    else {
+        noResult.classList.add('d-none')
+
+    }
+
     displayNewsCount.innerText = newsCount;
     displayNews.innerHTML = ``;
 
@@ -75,9 +90,9 @@ const displayId = (data) => {
                 'No Details Availableu'
             }
                                                     </p>
-                                                    <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="d-flex justify-content-between align-items-center flex-wrap">
 
-                                        <div class="d-flex justify-content-between  align-items-center">
+                                        <div class="d-flex justify-content-between  align-items-center flex-wrap">
                                             <div  style="height: 40px; width: 40px;">
                                                 <img src="${categoryItem.author.img}"
                                                     class="img-fluid"
@@ -87,7 +102,7 @@ const displayId = (data) => {
                                                    <p class="card-title ms-2"> ${categoryItem.author.name ? categoryItem.author.name : 'No Data Available'} </p>
                                         </div>
 
-                                            <div class="d-flex justify-content-between ">
+                                            <div class="d-flex justify-content-between flex-wrap">
                                                 <p class="card-text mt-3 fw-semibold"> Views :</p>
                                                 <p class="card-text mt-3">${categoryItem.total_view ? categoryItem.total_view : 'No Data Available'}</p>
                                             </div>
@@ -119,7 +134,7 @@ const loadModal = (news_id) => {
 }
 
 const showModal = (modalCategory) => {
-    console.log('categoryItem from Modal', modalCategory)
+    // console.log('categoryItem from Modal', modalCategory)
     const modalTitle = document.getElementById('titleModalLabel');
     modalTitle.innerText = modalCategory.title;
     const modalElements = document.getElementById('modal-elements');
@@ -162,5 +177,4 @@ const toggleSpinner = (isLoading) => {
     }
 }
 
-loadCategoryId();
 loadCategoryMenu();

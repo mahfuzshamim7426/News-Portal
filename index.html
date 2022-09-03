@@ -12,7 +12,7 @@
 </head>
 </head>
 
-<body>
+<body style="background-color: #f8f9fa;">
     <header>
         <nav class="container navbar navbar-expand-lg bg-light">
             <div class="container-fluid ">
@@ -43,8 +43,14 @@
             </div>
         </section>
 
+        <!-- Display news count  -->
+        <section class="container mt-4" style="background-color: #ffffff; padding: 8px;">
+            <h5 class="ms-4 tw-bold"><span id="news-count"></span> items found for category Entertainment</p>
+        </section>
+
+
         <!-- News display  -->
-        <section class="mt-4">
+        <section class="mt-4" style="background-color: #ffffff;">
             <div id="display-news">
                 <div class="card" style="max-width: 540px;">
 
@@ -63,8 +69,8 @@
                             <h5 class="modal-title" id="titleModalLabel">Modal title</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                            ...
+                        <div class="modal-body" id="modal-elements">
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

@@ -35,11 +35,11 @@ const loadCategoryId = async (id) => {
         const res = await fetch(idUrl)
         const data = await res.json();
         displayId(data.data)
+        // console.log('data', data)
     }
     catch (error) {
         console.log(error);
     }
-
     // .then(res => res.json())
     // .then(data => {
     //     // console.log('data', data)
@@ -49,11 +49,10 @@ const loadCategoryId = async (id) => {
     //     // End Spinner 
     // })
     // .catch(error => console.log(error))
-
-
 }
 const displayId = (data) => {
     const displayNews = document.getElementById('display-news');
+
     displayNews.innerHTML = ``;
 
     data.forEach(categoryItem => {
@@ -61,39 +60,44 @@ const displayId = (data) => {
         const categoryDiv = document.createElement('div')
         categoryDiv.innerHTML = `
                      <div class="row g-0 m-2">
-                         <div class="col-md-4">
-                           <img src="${categoryItem.image_url}" class="img-fluid rounded-start  m-2" alt="...">
-                         </div>
-                         <div class="col-md-8 mt-2">
-                             <div class="card-body  mx-2 px-4">
-                                 <h5 class="card-title">${categoryItem.title}</h5>
-                                 <p class="card-text mt-2">
-                                 ${categoryItem?.details ?
+                            <div class="col-md-4">
+                               <img src="${categoryItem.image_url}" class="img-fluid rounded-start  m-2" alt="...">
+                            </div>
+                            <div class="col-md-8 mt-2">
+                                <div class="card-body  mx-2 px-4">
+                                    <h5 class="card-title">${categoryItem.title}</h5>
+                                    <p class="card-text mt-2">
+                                    ${categoryItem?.details ?
                 categoryItem?.details?.length > 200 ? categoryItem.details.slice(0, 200) + '...' : categoryItem?.details
                 :
                 'No Details Availableu'
             }
-                                 </p>
-                                 <div class="d-flex justify-content-between align-items-center">
-                                   <div class="d-flex justify-content-between  align-items-center">
-                                      <div  style="height: 40px; width: 40px;">
-                                          <img src="${categoryItem.author.img}"
-                                             class="img-fluid"
-                                             style=" border-radius: 155px;"
-                                             alt="card-image">
+                                                    </p>
+                                                    <div class="d-flex justify-content-between align-items-center">
+
+                                        <div class="d-flex justify-content-between  align-items-center">
+                                            <div  style="height: 40px; width: 40px;">
+                                                <img src="${categoryItem.author.img}"
+                                                    class="img-fluid"
+                                                    style=" border-radius: 155px;"
+                                                    alt="card-image">
+                                            </div>
+                                                   <p class="card-title ms-2"> ${categoryItem.author.name ? categoryItem.author.name : 'No Data Available'} </p>
                                         </div>
-                                             <p class="card-title ms-2"> ${categoryItem.author.name ? categoryItem.author.name : 'No Data Available'} </p>
-                                        </div>
-                                         <p class="card-text mt-3">${categoryItem.total_view ? categoryItem.total_view : 'No Data Available'}</p>
-                                      <div>
-                                          <button onclick="showModal( ${categoryItem})"
-                                           type="button" class="btn btn-primary"
-                                           data-bs-toggle="modal" data-bs-target="#exampleModal"> More  </button>
-                                         
-                                       </div>
+
+                                            <div class="d-flex justify-content-between ">
+                                                <p class="card-text mt-3 fw-semibold"> Views :</p>
+                                                <p class="card-text mt-3">${categoryItem.total_view ? categoryItem.total_view : 'No Data Available'}</p>
+                                            </div>
+
+                                            <div>
+                                                    <button onclick="loadModal( '${categoryItem._id}')"
+                                                    type="button" class="btn btn-primary"
+                                                    data-bs-toggle="modal" data-bs-target="#exampleModal"> More  </button>
+                                            </div>
+                                  </div>
                                </div>
-                             </div>
-                         </div>
+                          </div>
                      </div>
             `
         displayNews.appendChild(categoryDiv);
@@ -103,10 +107,46 @@ const displayId = (data) => {
 
 }
 
-const showModal = (category) => {
-    console.log('categoryItem from Modal', category)
-    // const modalTitle = document.getElementById('titleModalLabel');
-    // modalTitle.innerText = category.title;
+const loadModal = (news_id) => {
+    const modalUrl = `https://openapi.programming-hero.com/api/news/${news_id}`
+    console.log(modalUrl)
+    fetch(modalUrl)
+        .then(res => res.json())
+        .then(data => showModal(data.data[0]))
+        .catch(error => console.log(error))
+}
+
+const showModal = (modalCategory) => {
+    console.log('categoryItem from Modal', modalCategory)
+    const modalTitle = document.getElementById('titleModalLabel');
+    modalTitle.innerText = modalCategory.title;
+    const modalElements = document.getElementById('modal-elements');
+    modalElements.innerHTML = `
+    <img class="img-fluid" src="${modalCategory.image_url}">
+    <p class="card-text mt-2">
+    ${modalCategory?.details ?
+            modalCategory?.details?.length > 200 ?
+                modalCategory.details.slice(0, 200) + '...' :
+                modalCategory?.details :
+            'No Details Availableu'
+        }
+                    </p>
+          <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between  align-items-center">
+                    <div  style="height: 40px; width: 40px;">
+                        <img src="${modalCategory.author.img}"
+                        class="img-fluid"
+                        style=" border-radius: 155px;"
+                        alt="card-image">
+                    </div>
+                    <p class="card-title ms-2"> ${modalCategory.author.name ? modalCategory.author.name : 'No Data Available'} </p>
+                </div>
+                <div class="d-flex justify-content-between ">
+                    <p class="card-text mt-3 fw-semibold"> Views :</p>
+                    <p class="card-text mt-3">${modalCategory.total_view ? modalCategory.total_view : 'No Data Available'}</p>
+               </div>
+         </div>
+    `
 }
 
 const toggleSpinner = (isLoading) => {

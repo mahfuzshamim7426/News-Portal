@@ -52,7 +52,9 @@ const loadCategoryId = async (id) => {
 }
 const displayId = (data) => {
     const displayNews = document.getElementById('display-news');
-
+    const displayNewsCount = document.getElementById('news-count');
+    const newsCount = data?.length;
+    displayNewsCount.innerText = newsCount;
     displayNews.innerHTML = ``;
 
     data.forEach(categoryItem => {

@@ -92,7 +92,7 @@ const displayId = (data, catagoryName) => {
                                                     </p>
                                                     <div class="d-flex justify-content-between align-items-center flex-wrap">
 
-                                        <div class="d-flex justify-content-between  align-items-center flex-wrap">
+                                        <div class="d-flex justify-content-between  align-items-center">
                                             <div  style="height: 40px; width: 40px;">
                                                 <img src="${categoryItem.author.img}"
                                                     class="img-fluid"
@@ -102,7 +102,7 @@ const displayId = (data, catagoryName) => {
                                                    <p class="card-title ms-2"> ${categoryItem.author.name ? categoryItem.author.name : 'No Data Available'} </p>
                                         </div>
 
-                                            <div class="d-flex justify-content-between flex-wrap">
+                                            <div class="d-flex justify-content-between">
                                                 <p class="card-text mt-3 fw-semibold"> Views :</p>
                                                 <p class="card-text mt-3">${categoryItem.total_view ? categoryItem.total_view : 'No Data Available'}</p>
                                             </div>

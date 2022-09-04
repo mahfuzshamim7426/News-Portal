@@ -130,7 +130,7 @@ const showModal = (modalCategory) => {
     ${modalCategory?.details ?
             modalCategory?.details?.length > 200 ?
                 modalCategory.details.slice(0, 200) + '...' :
-                modalCategory?.details :
+                modalCategory?.details + '...' :
             'No Details Availableu'
         }
                     </p>

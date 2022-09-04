@@ -37,8 +37,6 @@ const loadCategoryId = async (id, catagoryName) => {
     }
 }
 const displayCategoryId = (data, catagoryName) => {
-    console.log(data)
-
     // Total View Sorting
     const sortingData = data.sort((a, b) => {
         return b.total_view - a.total_view;
@@ -74,7 +72,7 @@ const displayCategoryId = (data, catagoryName) => {
                                     <h5 class="card-title">${categoryItem.title}</h5>
                                     <p class="card-text mt-2">
                                     ${categoryItem?.details ?
-                categoryItem?.details?.length > 200 ? categoryItem.details.slice(0, 200) + '...' : categoryItem?.details
+                categoryItem?.details?.length > 200 ? categoryItem.details.slice(0, 200) + '...' : categoryItem?.details + '...'
                 :
                 'No Details Availableu'
             }

@@ -72,7 +72,7 @@ const displayCategoryId = (data, catagoryName) => {
                                     <h5 class="card-title">${categoryItem.title}</h5>
                                     <p class="card-text mt-2">
                                     ${categoryItem?.details ?
-                categoryItem?.details?.length > 200 ? categoryItem.details.slice(0, 200) + '...' : categoryItem?.details + '...'
+                categoryItem?.details?.length > 300 ? categoryItem.details.slice(0, 300) + '...' : categoryItem?.details + '...'
                 :
                 'No Details Availableu'
             }

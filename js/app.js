@@ -37,6 +37,7 @@ const loadCategoryId = async (id, catagoryName) => {
     }
 }
 const displayCategoryId = (data, catagoryName) => {
+    console.log(data)
 
     // Total View Sorting
     const sortingData = data.sort((a, b) => {
@@ -64,10 +65,11 @@ const displayCategoryId = (data, catagoryName) => {
         const categoryDiv = document.createElement('div')
         categoryDiv.innerHTML = `
                      <div class="row g-0 m-2">
-                            <div class="col-md-4">
-                               <img src="${categoryItem.image_url}" class="img-fluid rounded-start  m-2" alt="...">
+                            <div class="col-md-3 text-center">
+                               <img src="${categoryItem.thumbnail_url
+            }" class="img-fluid rounded-start  m-2" alt="...">
                             </div>
-                            <div class="col-md-8 mt-2">
+                            <div class="col-md-9 mt-2">
                                 <div class="card-body  mx-2 px-4">
                                     <h5 class="card-title">${categoryItem.title}</h5>
                                     <p class="card-text mt-2">
@@ -90,7 +92,7 @@ const displayCategoryId = (data, catagoryName) => {
                                         </div>
 
                                             <div class="d-flex justify-content-between">
-                                                <p class="card-text mt-3 fw-semibold"> Views :</p>
+                                                <p class="card-text mt-3 fw-semibold"> <i class="fa-regular fa-eye me-2"></i></p>
                                                 <p class="card-text mt-3">${categoryItem.total_view ? categoryItem.total_view : 'No Data Available'}</p>
                                             </div>
 

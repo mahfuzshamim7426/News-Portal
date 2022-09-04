@@ -35,7 +35,7 @@ const loadCategoryId = async (id, catagoryName) => {
     try {
         const res = await fetch(idUrl)
         const data = await res.json();
-        displayId(data.data, catagoryName)
+        displayCategoryId(data.data, catagoryName)
         // console.log('data by Id', data)
     }
     catch (error) {
@@ -45,14 +45,21 @@ const loadCategoryId = async (id, catagoryName) => {
     // .then(data => {
     //     // console.log('data', data)
 
-    //     displayId(data.data)
+    //     displayCategoryId(data.data)
 
     //     // End Spinner 
     // })
     // .catch(error => console.log(error))
 }
-const displayId = (data, catagoryName) => {
+const displayCategoryId = (data, catagoryName) => {
     // console.log('catagoryName', catagoryName)
+
+    // ================= Shorting====================== 
+
+    const sortingData = data.sort((a, b) => {
+        return b.total_view - a.total_view;
+    });
+    // console.log(sortingData);
     const catNames = document.getElementById('cat-name');
     catNames.innerText = catagoryName
     // console.log('data: ', data);
@@ -73,6 +80,7 @@ const displayId = (data, catagoryName) => {
     displayNews.innerHTML = ``;
 
     data.forEach(categoryItem => {
+
         // console.log('categoryItem', categoryItem)
         const categoryDiv = document.createElement('div')
         categoryDiv.innerHTML = `
@@ -119,6 +127,7 @@ const displayId = (data, catagoryName) => {
             `
         displayNews.appendChild(categoryDiv);
     })
+
     // End Spinner 
     toggleSpinner(false)
 
@@ -126,7 +135,7 @@ const displayId = (data, catagoryName) => {
 
 const loadModal = (news_id) => {
     const modalUrl = `https://openapi.programming-hero.com/api/news/${news_id}`
-    console.log(modalUrl)
+    // console.log(modalUrl)
     fetch(modalUrl)
         .then(res => res.json())
         .then(data => showModal(data.data[0]))

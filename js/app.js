@@ -145,7 +145,7 @@ const showModal = (modalCategory) => {
                     <p class="card-title ms-2"> ${modalCategory.author.name ? modalCategory.author.name : 'No Data Available'} </p>
                 </div>
                 <div class="d-flex justify-content-between ">
-                    <p class="card-text mt-3 fw-semibold"> Views :</p>
+                    <p class="card-text mt-3 fw-semibold"><i class="fa-regular fa-eye me-2"></i></p>
                     <p class="card-text mt-3">${modalCategory.total_view ? modalCategory.total_view : 'No Data Available'}</p>
                </div>
          </div>
